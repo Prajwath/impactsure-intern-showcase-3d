@@ -1,4 +1,3 @@
-
 import { Suspense, useRef, useState, useEffect } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, PerspectiveCamera, Environment, Float, Html } from '@react-three/drei';
@@ -58,6 +57,29 @@ const Laptop = () => {
                 roughness={0.1}
               />
             </mesh>
+            <Html
+              transform
+              occlude
+              position={[0, 0.02, 0]}
+              className="pointer-events-none"
+              center
+              distanceFactor={1.5}
+            >
+              <div className="select-none" style={{ 
+                color: '#1EAEDB',
+                fontFamily: 'monospace',
+                fontSize: '24px',
+                fontWeight: 'bold',
+                textShadow: '0 0 10px #D946EF, 0 0 20px #D946EF',
+                background: 'rgba(26, 31, 44, 0.8)',
+                padding: '10px 20px',
+                borderRadius: '4px',
+                border: '1px solid #D946EF',
+                transform: 'scale(0.15)'
+              }}>
+                HI PANEL
+              </div>
+            </Html>
           </mesh>
         </mesh>
         <mesh position={[0, 0.05, -0.5]} rotation={[Math.PI / 4, 0, 0]}>
@@ -148,7 +170,6 @@ const MainScene = () => {
   );
 };
 
-// Fallback component to show when WebGL is not supported
 const WebGLFallback = () => {
   return (
     <div className="min-h-[80vh] flex flex-col items-center justify-center text-center p-4">
@@ -172,7 +193,6 @@ const WebGLFallback = () => {
   );
 };
 
-// Check if WebGL is supported
 function isWebGLAvailable() {
   try {
     const canvas = document.createElement('canvas');
@@ -189,11 +209,9 @@ const Scene = () => {
   const [webGLSupported, setWebGLSupported] = useState(true);
   
   useEffect(() => {
-    // Check WebGL support on component mount
     setWebGLSupported(isWebGLAvailable());
   }, []);
 
-  // If WebGL is not supported, display fallback content
   if (!webGLSupported) {
     return <WebGLFallback />;
   }
@@ -203,7 +221,6 @@ const Scene = () => {
       <Canvas 
         className="three-canvas" 
         onCreated={(state) => {
-          // Add event listener for WebGL context loss
           const canvas = state.gl.domElement;
           canvas.addEventListener('webglcontextlost', (event) => {
             event.preventDefault();
