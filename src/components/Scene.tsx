@@ -1,7 +1,7 @@
 
 import { Suspense, useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls, PerspectiveCamera, Environment, Float } from '@react-three/drei';
+import { OrbitControls, PerspectiveCamera, Environment, Float, Html } from '@react-three/drei';
 import * as THREE from 'three';
 import Loader from './Loader';
 
@@ -96,7 +96,7 @@ const Globe = () => {
 
 const MainScene = () => {
   return (
-    <Suspense fallback={<Loader />}>
+    <Suspense fallback={null}>
       <Environment preset="city" />
       <PerspectiveCamera makeDefault position={[0, 0, 5]} fov={50} />
       <ambientLight intensity={0.5} />
@@ -119,6 +119,11 @@ const Scene = () => {
       <Canvas className="three-canvas">
         <MainScene />
       </Canvas>
+      <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
+        <Suspense fallback={<Loader />}>
+          {/* Any HTML overlay content can go here */}
+        </Suspense>
+      </div>
     </div>
   );
 };
