@@ -1,5 +1,5 @@
 
-import { Suspense, useRef } from 'react';
+import { Suspense, useRef, useState, useEffect } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, PerspectiveCamera, Environment, Float, Html } from '@react-three/drei';
 import * as THREE from 'three';
@@ -113,10 +113,71 @@ const MainScene = () => {
   );
 };
 
+// Fallback component to show when WebGL is not supported
+const WebGLFallback = () => {
+  return (
+    <div className="min-h-[80vh] flex flex-col items-center justify-center text-center p-4">
+      <div className="bg-black/80 p-6 rounded-lg max-w-lg">
+        <h2 className="text-3xl font-bold text-tech-purple mb-4">3D Experience Not Available</h2>
+        <p className="text-lg mb-4 text-gray-200">
+          Your browser or device doesn't support WebGL, which is required to view the 3D elements.
+        </p>
+        <div className="mb-6">
+          <p className="font-semibold text-tech-purple mb-2">Possible solutions:</p>
+          <ul className="text-left text-sm text-gray-300 list-disc pl-5 space-y-1">
+            <li>Try a modern browser like Chrome, Firefox, or Edge</li>
+            <li>Make sure your graphics drivers are up to date</li>
+            <li>If using a mobile device, try a desktop computer</li>
+            <li>Enable hardware acceleration in your browser settings</li>
+          </ul>
+        </div>
+        <div className="text-2xl font-bold text-tech-purple">IMPACTSURE</div>
+      </div>
+    </div>
+  );
+};
+
+// Check if WebGL is supported
+function isWebGLAvailable() {
+  try {
+    const canvas = document.createElement('canvas');
+    return !!(
+      window.WebGLRenderingContext && 
+      (canvas.getContext('webgl') || canvas.getContext('experimental-webgl'))
+    );
+  } catch (e) {
+    return false;
+  }
+}
+
 const Scene = () => {
+  const [webGLSupported, setWebGLSupported] = useState(true);
+  
+  useEffect(() => {
+    // Check WebGL support on component mount
+    setWebGLSupported(isWebGLAvailable());
+  }, []);
+
+  // If WebGL is not supported, display fallback content
+  if (!webGLSupported) {
+    return <WebGLFallback />;
+  }
+  
   return (
     <div className="canvas-container">
-      <Canvas className="three-canvas">
+      <Canvas 
+        className="three-canvas" 
+        onCreated={(state) => {
+          // Add event listener for WebGL context loss
+          const canvas = state.gl.domElement;
+          canvas.addEventListener('webglcontextlost', (event) => {
+            event.preventDefault();
+            console.log('WebGL context lost, showing fallback');
+            setWebGLSupported(false);
+          });
+        }}
+        onError={() => setWebGLSupported(false)}
+      >
         <MainScene />
       </Canvas>
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
