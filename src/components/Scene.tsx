@@ -25,42 +25,57 @@ const Laptop = () => {
   return (
     <Float speed={1.5} rotationIntensity={0.2} floatIntensity={0.5}>
       <mesh ref={meshRef} scale={[1.5, 1.5, 1.5]}>
+        {/* Base of the laptop */}
         <boxGeometry args={[1, 0.05, 1]} />
         <meshStandardMaterial 
           color="#1A1F2C"
           metalness={0.8}
           roughness={0.2}
         />
-        <mesh position={[0, 0.05, 0]}>
-          <boxGeometry args={[0.95, 0.05, 0.75]} />
+        
+        {/* Keyboard area */}
+        <mesh position={[0, 0.05, 0.1]}>
+          <boxGeometry args={[0.95, 0.02, 0.75]} />
           <meshStandardMaterial 
             color="#000000"
             metalness={0.9}
             roughness={0.1}
           />
-          <mesh position={[0, 0.05, 0]}>
-            <boxGeometry args={[0.9, 0.01, 0.7]} />
+          
+          {/* Keyboard keys grid */}
+          <mesh position={[0, 0.02, 0]}>
+            <gridHelper args={[0.8, 10, "#2A2A2A", "#2A2A2A"]} rotation={[Math.PI / 2, 0, 0]} />
+            <meshStandardMaterial 
+              color="#1A1F2C"
+              emissive="#8B5CF6"
+              emissiveIntensity={0.2}
+              metalness={1}
+              roughness={0.3}
+            />
+          </mesh>
+        </mesh>
+
+        {/* Screen */}
+        <mesh position={[0, 0.05, -0.5]} rotation={[Math.PI / 4, 0, 0]}>
+          <boxGeometry args={[0.95, 0.7, 0.05]} />
+          <meshStandardMaterial 
+            color="#000000"
+            metalness={0.9}
+            roughness={0.1}
+          />
+          <mesh position={[0, 0, -0.025]}>
+            <boxGeometry args={[0.85, 0.6, 0.01]} />
             <meshStandardMaterial 
               color="#0A0A0A"
               emissive="#D946EF"
-              emissiveIntensity={0.3}
+              emissiveIntensity={0.4}
               metalness={1}
               roughness={0.1}
             />
-            <mesh position={[0, 0.01, 0]}>
-              <boxGeometry args={[0.85, 0.01, 0.65]} />
-              <meshStandardMaterial 
-                color="#1A1F2C"
-                emissive="#8B5CF6"
-                emissiveIntensity={0.5}
-                metalness={1}
-                roughness={0.1}
-              />
-            </mesh>
             <Html
               transform
               occlude
-              position={[0, 0.02, 0]}
+              position={[0, 0, 0.01]}
               className="pointer-events-none"
               center
               distanceFactor={1.5}
@@ -80,24 +95,6 @@ const Laptop = () => {
                 HI PANEL
               </div>
             </Html>
-          </mesh>
-        </mesh>
-        <mesh position={[0, 0.05, -0.5]} rotation={[Math.PI / 4, 0, 0]}>
-          <boxGeometry args={[0.95, 0.7, 0.05]} />
-          <meshStandardMaterial 
-            color="#000000"
-            metalness={0.9}
-            roughness={0.1}
-          />
-          <mesh position={[0, 0, -0.025]}>
-            <boxGeometry args={[0.85, 0.6, 0.01]} />
-            <meshStandardMaterial 
-              color="#0A0A0A"
-              emissive="#D946EF"
-              emissiveIntensity={0.4}
-              metalness={1}
-              roughness={0.1}
-            />
           </mesh>
         </mesh>
       </mesh>
