@@ -108,7 +108,7 @@ const Skills = () => {
                   <span className="text-white">Git</span>
                 </div>
                 <div className="bg-tech-darkBlue/80 p-3 rounded-lg text-center">
-                  <span className="text-white">Jenkins</span>
+                  <span className="text-white">SFTP</span>
                 </div>
                 <div className="bg-tech-darkBlue/80 p-3 rounded-lg text-center">
                   <span className="text-white">Docker</span>

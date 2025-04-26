@@ -1,3 +1,4 @@
+
 import { Suspense, useRef, useState, useEffect } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, PerspectiveCamera, Environment, Float, Html } from '@react-three/drei';
@@ -92,7 +93,8 @@ const Laptop = () => {
                 border: '1px solid #D946EF',
                 transform: 'scale(0.15)'
               }}>
-                HI PANEL
+                IMPACTSURE TECHNOLOGIES<br/>
+                MUMBAI BHANDHUP
               </div>
             </Html>
           </mesh>
